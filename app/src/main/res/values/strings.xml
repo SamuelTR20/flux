@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Flux</string>
+    <string name="service_name">Servicio de Listener de Notificaciones</string>
+</resources>
