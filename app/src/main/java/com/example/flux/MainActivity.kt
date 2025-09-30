@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -33,16 +32,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flux.data.database.DatabaseProvider
 import com.example.flux.notification.NotificationHelper
 import com.example.flux.repository.LogEventRepository
 import com.example.flux.ui.theme.FluxTheme
+import com.example.flux.ui.view.records.LogEventScreen
 import com.example.flux.ui.viewmodel.LogEventViewModel
 import com.example.flux.ui.viewmodel.LogEventViewModelFactory
-
 
 class MainActivity : ComponentActivity() {
 
@@ -121,37 +119,18 @@ class MainActivity : ComponentActivity() {
             ) {
                 when (selectedTab) {
                     0 -> {
-                        // Aquí pondrás RecordsView
-                        if (!hasNotificationPermission) {
-                            Button(
-                                onClick = {
-                                    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                                    }
-                                    startActivity(intent)
-                                },
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .padding(16.dp)
-                            ) {
-                                Text("Habilitar permisos de notificación")
-                            }
-                        }
-
-                        Button(
-                            onClick = {
-                                if (hasNotificationPermission) {
-                                    NotificationHelper.sendTestNotification(context)
-                                } else {
-                                    requestNotificationPermission()
+                        LogEventScreen(
+                            logs = logs,
+                            hasNotificationPermission = hasNotificationPermission,
+                            onRequestPermission = { requestNotificationPermission() },
+                            onOpenSettings = {
+                                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
                                 }
+                                startActivity(intent)
                             },
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(16.dp)
-                        ) {
-                            Text("Enviar Notificación de Prueba")
-                        }
+                            onSendTestNotification = { NotificationHelper.sendTestNotification(context) }
+                        )
                     }
                     1 -> {
                         Text("Categories Screen", modifier = Modifier.align(Alignment.Center))
