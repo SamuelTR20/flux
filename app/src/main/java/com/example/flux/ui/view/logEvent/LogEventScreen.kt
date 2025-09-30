@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.flux.data.model.IndexView
 import com.example.flux.data.model.LogEvent
 
+
 @Composable
 fun LogEventScreen(
     logs: List<LogEvent>,
@@ -23,16 +24,8 @@ fun LogEventScreen(
     onSendTestNotification: () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Título
-        Text(
-            text = "Registros",
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
         // Lista de registros
         if (logs.isNotEmpty()) {
             IndexView(logs = logs)
@@ -47,35 +40,40 @@ fun LogEventScreen(
             }
         }
 
-        // Sección de notificaciones
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            if (!hasNotificationPermission) {
-                Button(
-                    onClick = onOpenSettings,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                ) {
-                    Text("Habilitar permisos de notificación")
-                }
-            }
-
-            Button(
-                onClick = {
-                    if (hasNotificationPermission) {
-                        onSendTestNotification()
-                    } else {
-                        onRequestPermission()
-                    }
-                },
+        // Botones de notificación (en la parte inferior)
+        if (!hasNotificationPermission || true) { // Siempre mostrar por ahora para testing
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                    .padding(16.dp)
             ) {
-                Text("Enviar Notificación de Prueba")
+                if (!hasNotificationPermission) {
+                    Button(
+                        onClick = onOpenSettings,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    ) {
+                        Text("Habilitar permisos de notificación")
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        if (hasNotificationPermission) {
+                            onSendTestNotification()
+                        } else {
+                            onRequestPermission()
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                ) {
+                    Text("Enviar Notificación de Prueba")
+                }
             }
         }
     }
 }
+

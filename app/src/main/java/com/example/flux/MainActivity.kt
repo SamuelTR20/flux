@@ -38,9 +38,9 @@ import com.example.flux.data.database.DatabaseProvider
 import com.example.flux.notification.NotificationHelper
 import com.example.flux.repository.LogEventRepository
 import com.example.flux.ui.theme.FluxTheme
-import com.example.flux.ui.view.records.LogEventScreen
 import com.example.flux.ui.viewmodel.LogEventViewModel
 import com.example.flux.ui.viewmodel.LogEventViewModelFactory
+import com.example.flux.ui.view.records.LogEventScreen
 
 class MainActivity : ComponentActivity() {
 
